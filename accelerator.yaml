@@ -1,0 +1,76 @@
+accelerator:
+  displayName: Spring Sensors
+  description: A Spring application for tracking sensor data
+  iconUrl: https://github.com/sample-accelerators/icons/raw/master/sensor-dashboard.png
+  tags:
+  - java
+  - spring
+  - web
+  - tanzu
+
+  options:
+  - name: repositoryPrefix
+    inputType: text
+    label: Prefix for the container image repository
+    defaultValue: dev.local
+    required: true
+  - name: namespace
+    inputType: text
+    label: Namespace on K8s
+    defaultValue: default
+    required: true
+  - name: k8sContextName
+    inputType: text
+    label: K8s Context Name
+    required: true
+
+  imports:
+  - name: tap-workload
+
+engine:
+  merge:
+  - include: [ "**/*" ]
+    exclude: [ "config/*.yaml", "Tiltfile", "README.md", "catalog/*.yaml" ]
+  - include: [ "Tiltfile" ]
+    chain:
+    - type: ReplaceText
+      substitutions:
+      - text: spring-sensors
+        with: "#artifactId.toLowerCase()"
+    - type: ReplaceText
+      substitutions:
+      - text: your-registry.io/project
+        with: "#repositoryPrefix"
+    - type: ReplaceText
+      substitutions:
+      - text: namespace_name
+        with: "#namespace"
+    - type: ReplaceText
+      substitutions:
+      - text: k8s_context_name
+        with: "#k8sContextName"
+
+  - include: [ "config/*.yaml" ]
+    chain:
+    - type: ReplaceText
+      substitutions:
+      - text: ": spring-sensors"
+        with: "': ' + #artifactId.toLowerCase()"
+    - merge:
+      - type: InvokeFragment
+        reference: tap-workload
+      - include: [ "**" ]
+      onConflict: UseFirst
+
+  - include: [ "README.md" ]
+    chain:
+    - type: ReplaceText
+      substitutions:
+      - text: spring-sensors
+        with: "#artifactId"
+  - include: [ "catalog/*.yaml" ]
+    chain:
+    - type: ReplaceText
+      substitutions:
+      - text: spring-sensors
+        with: "#artifactId"
