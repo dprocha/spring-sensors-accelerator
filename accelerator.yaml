@@ -32,11 +32,6 @@ accelerator:
     label: Git Repo Branch Name
     required: true
 
-
-
-  imports:
-  - name: tap-workload
-
 engine:
   merge:
   - include: [ "**/*" ]
