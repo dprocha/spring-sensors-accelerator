@@ -73,11 +73,6 @@ engine:
       substitutions:
       - text: ": git_repo_branch"
         with: "': ' + #gitRepoBranch"
-    - merge:
-      - type: InvokeFragment
-        reference: tap-workload
-      - include: [ "**" ]
-      onConflict: UseFirst
 
   - include: [ "README.md" ]
     chain:
