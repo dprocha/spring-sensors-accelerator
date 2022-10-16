@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>org.tanzu</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>spring-sensors</artifactId>
     <version>0.1</version>
-    <name>demo</name>
-    <description>Demo Application</description>
+    <name>spring-sensors</name>
+    <description>Spring Sensors Application</description>
 
     <properties>
         <java.version>11</java.version>

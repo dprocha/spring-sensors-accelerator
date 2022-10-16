@@ -86,3 +86,9 @@ engine:
       substitutions:
       - text: spring-sensors
         with: "#artifactId"
+  - include: [ "pom.xml" ]
+    chain:
+    - type: ReplaceText
+      substitutions:
+      - text: spring-sensors
+        with: "#artifactId.toLowerCase()"
